@@ -1,30 +1,34 @@
-users = []
-methods = [
-    {"id": 1, "caption": "Vigenere Cipher", "json_params": {}, "description": "Encrypts using Vigenere Cipher."},
-    {"id": 2, "caption": "Shift Cipher", "json_params": {"shift": 3}, "description": "Encrypts using Shift Cipher with shift of 3."}
-]
-sessions = []
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 
-class User:
-    def __init__(self, user_id, login, secret):
-        self.user_id = user_id
-        self.login = login
-        self.secret = secret
+db = SQLAlchemy()
 
-class Method:
-    def __init__(self, id, caption, json_params, description):
-        self.id = id
-        self.caption = caption
-        self.json_params = json_params
-        self.description = description
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(10), unique=True, nullable=False)
+    secret = db.Column(db.String(10), nullable=False)
+    sessions = db.relationship('Session', back_populates='user')
 
-class Session:
-    def __init__(self, id, user_id, method_id, data_in, data_out, status, created_at, time_op):
-        self.id = id
-        self.user_id = user_id
-        self.method_id = method_id
-        self.data_in = data_in
-        self.data_out = data_out
-        self.status = status
-        self.created_at = created_at
-        self.time_op = time_op
+class Method(db.Model):
+    __tablename__ = 'methods'
+    id = db.Column(db.Integer, primary_key=True)
+    caption = db.Column(db.String(50), nullable=False)
+    json_params = db.Column(db.JSON, nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+
+class Session(db.Model):
+    __tablename__ = 'sessions'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    method_id = db.Column(db.Integer, db.ForeignKey('methods.id'), nullable=False)
+    data_in = db.Column(db.Text, nullable=False)
+    data_out = db.Column(db.Text, nullable=False)
+    action_type = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    time_op = db.Column(db.Float, nullable=False)
+    parent_id = db.Column(db.Integer, nullable=True)
+
+    user = db.relationship('User', back_populates='sessions')
+    method = db.relationship('Method')

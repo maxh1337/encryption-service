@@ -1,127 +1,186 @@
-# Encryption Service API
+Конечно! Вот содержимое `README.md` файла в одном текстовом блоке:
 
-## Setup
+````markdown
+# Vigenere and Caesar Cipher Brute Force API
 
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Install the required packages:
-   ```bash
-   pip install flask
+## Описание
+
+Этот API предоставляет возможности для шифрования и дешифрования текстов, а также для взлома шифров Виженера и Цезаря.
+
+## Установка
+
+1. Клонируйте репозиторий:
+
+   ```sh
+   git clone https://github.com/yourusername/yourrepository.git
    ```
-4. Run the application:
-   ```bash
-   python app.py
+
+2. Перейдите в директорию проекта:
+
+   ```sh
+   cd yourrepository
    ```
 
-## Endpoints
+3. Установите требуемые зависимости:
 
-### Add User
+4. Запустите сервер:
 
-- `POST /users`
-- Request body:
-  ```json
-  {
-    "login": "username",
-    "secret": "123"
-  }
-  ```
-- Response:
-  ```json
-  {
-    "message": "User added successfully"
-  }
-  ```
+   python3 app.apy or python app.py
 
-### Get Users
+## Маршруты
 
-- `GET /users`
-- Response:
-  ```json
-  [
-    {
-      "user_id": 1,
-      "login": "username"
-    }
-  ]
-  ```
+### 1. `/encrypt/vigenere`
 
-### Get Methods
+**Описание:** Шифрование текста с использованием шифра Виженера.
 
-- `GET /methods`
-- Response:
-  ```json
-  [
-    {
-      "id": 1,
-      "caption": "Vigenere Cipher",
-      "json_params": {},
-      "description": "Encrypts using Vigenere Cipher."
-    },
-    {
-      "id": 2,
-      "caption": "Shift Cipher",
-      "json_params": { "shift": 3 },
-      "description": "Encrypts using Shift Cipher with shift of 3."
-    }
-  ]
-  ```
+**Метод:** POST
 
-### Encrypt Data
+**Тело запроса:**
 
-- `POST /encrypt`
-- Request body:
-  ```json
-  {
-    "user_id": 1,
-    "method_id": 1,
-    "data_in": "HELLO",
-    "json_params": {
-      "key": "KEY"
-    }
-  }
-  ```
-- Response:
-  ```json
-  {
-    "session_id": 1,
-    "encrypted_data": "RIJVS"
-  }
-  ```
+```json
+{
+  "data_in": "YOUR TEXT HERE",
+  "key": "YOURKEY"
+}
+```
+````
 
-### Get Session
+**Ответ:**
 
-- `GET /sessions/{session_id}`
-- Response:
-  ```json
-  {
-    "id": 1,
-    "user_id": 1,
-    "method_id": 1,
-    "data_in": "HELLO",
-    "data_out": "RIJVS",
-    "status": "completed",
-    "created_at": 1623860460.123456,
-    "time_op": 0
-  }
-  ```
+```json
+{
+  "encrypted_text": "ENCRYPTED TEXT"
+}
+```
 
-### Delete Session
+### 2. `/decrypt/vigenere`
 
-- `DELETE /sessions/{session_id}`
-- Request body:
-  ```json
-  {
-    "user_id": 1,
-    "secret": "123"
-  }
-  ```
-- Response:
-  ```json
-  {
-    "message": "Session deleted successfully"
-  }
-  ```
+**Описание:** Дешифрование текста с использованием шифра Виженера.
 
-## Insomnia Collection
+**Метод:** POST
 
-U can find Insomnia Collection at root project folder
+**Тело запроса:**
+
+```json
+{
+  "data_in": "ENCRYPTED TEXT",
+  "key": "YOURKEY"
+}
+```
+
+**Ответ:**
+
+```json
+{
+  "decrypted_text": "YOUR TEXT HERE"
+}
+```
+
+### 3. `/encrypt/shift`
+
+**Описание:** Шифрование текста с использованием шифра Цезаря.
+
+**Метод:** POST
+
+**Тело запроса:**
+
+```json
+{
+  "data_in": "YOUR TEXT HERE",
+  "shift": 3
+}
+```
+
+**Ответ:**
+
+```json
+{
+  "encrypted_text": "ENCRYPTED TEXT"
+}
+```
+
+### 4. `/decrypt/shift`
+
+**Описание:** Дешифрование текста с использованием шифра Цезаря.
+
+**Метод:** POST
+
+**Тело запроса:**
+
+```json
+{
+  "data_in": "ENCRYPTED TEXT",
+  "shift": 3
+}
+```
+
+**Ответ:**
+
+```json
+{
+  "decrypted_text": "YOUR TEXT HERE"
+}
+```
+
+### 5. `/bruteforce/vigenere`
+
+**Описание:** Взлом шифра Виженера методом brute force.
+
+**Метод:** POST
+
+**Тело запроса:**
+
+```json
+{
+  "data_in": "ENCRYPTED TEXT",
+  "target_word": "TARGET WORD"
+}
+```
+
+**Ответ:**
+
+```json
+{
+    "possible_decryptions": [
+        {
+            "decryption": "DECRYPTED TEXT",
+            "key": "USED KEY",
+            "meaningful_score": 3
+        },
+        ...
+    ]
+}
+```
+
+### 6. `/bruteforce/shift`
+
+**Описание:** Взлом шифра Цезаря методом brute force.
+
+**Метод:** POST
+
+**Тело запроса:**
+
+```json
+{
+  "data_in": "ENCRYPTED TEXT"
+}
+```
+
+**Ответ:**
+
+```json
+{
+    "possible_decryptions": [
+        {
+            "decryption": "DECRYPTED TEXT",
+            "shift": 3,
+            "meaningful_score": 3
+        },
+        ...
+    ]
+}
+```
+
+```
+
+```
