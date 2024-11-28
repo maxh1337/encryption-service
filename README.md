@@ -1,6 +1,6 @@
-# Encryption Service API
-
 # Разработано в рамках выполнения задания по специальности "Информационная безопасность"
+
+# Encryption Service API
 
 ## Setup
 
