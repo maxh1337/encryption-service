@@ -1,5 +1,7 @@
 # Encryption Service API
 
+#Разработано в рамках выполнения задания по специальности "Информационная безопасность"
+
 ## Setup
 
 1. Clone the repository.
